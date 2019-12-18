@@ -1,0 +1,436 @@
+https://golang.org/ref/spec
+
+PRINT STATEMENTS:
+================
+1.
+%c for character
+%q for character with single quotes like 'c'
+%s for strings
+%d for integers
+%T for Types
+%t for true or false
+%b for printing into binary format
+%U prints Unicode value
+2.
+Assignments are not allowing in Println()
+Ex: 	var a int
+	fmt.Println(a=3)  //syntax error: unexpected =, expecting comma or )
+	
+3.
+, ro + is used for concatenation in fmt.Parintln(). If , is used then a space will arise between two operands
+	
+SHORT DECLARATION OPERATER:
+==========================
+--> With the help of short variable declaration operator(:=) you can only declare the local variable which has only block-level scope
+
+
+FOR LOOP:
+========
+package main 
+import "fmt" 
+func main() { 
+    rvariable:= []string{"GFG", "Geeks", "GeeksforGeeks"}
+    //var p int  //if this p is used in for loop golang is taking this one as global scope and the one used in for loop is taken as local scope and giving error
+    for _,j:= range rvariable { 
+	for p,q:=range j{
+		fmt.Println(p,string(q))
+	}
+       //fmt.Println()
+    } 
+    
+} 
+
+1. As simple for loop
+for initialization; condition; post{
+       // statements....
+}
+
+2. For loop as Infinite Loop: 
+for{
+     // Statement...
+}
+
+3. for loop as while Loop: 
+for condition{
+    // statement..
+}
+
+4. Simple range in for loop:
+for i, j:= range rvariable{
+   // statement..
+}
+
+5. Using for loop for strings:
+for index, chr:= range str{
+     // Statement..
+}
+
+6. For Maps:
+for key, value := range map { 
+     // Statement.. 
+}
+
+7. For Channel: 
+for item := range Chnl { 
+     // statements..
+}
+
+
+SWITCH:
+------
+1. Expression switch
+2. Type switch
+
+STRINGS:
+=======
+Package - strings
+
+strings.ToUpper("sd")
+strings.ToLower("sd")
+strings.ToTitle("sd")
+func ContainsRune(str string, r rune) bool
+strings.ContsinsRune("dsd", 'f') - finds if 'f' present or not
+                    string  rune 
+strings.join(array_name,"abcd") - joins "abcd" to array_name
+strings.Index("GeeksforGeeks", "ks") - finds index of "ks" in "GeeksforGeeks"
+                    
+RUNES:
+=====
+Package-unicode
+
+Converting a rune to specified case-
+unicode.To(unicode.LowerCase, 's') 
+unicode.To(unicode.TitleCase, 's') 
+unicode.To(unicode.UpperCase, 's')
+
+unicode.IsDigit('a') 
+unicode.IsSpace(rune_1) 
+unicode.IsPunct(rune_1) 
+unicode.IsSymbol(rune)
+unicode.IsUpper(rune)
+
+chack index of rune-
+strings.IndexRune("GeeksforGeeks", 'G') 
+
+Accessing single character in string-
+string("Hello"[1])              // ASCII only  //output - e
+string([]rune("Hello, 世界")[1]) // UTF-8  //output - e
+string([]rune("Hello, 世界")[8]) // UTF-8  //output - 界
+string([]rune("ajgj")[0:2])  //output - aj
+
+Package- reflect
+
+reflect.TypeOf(rune1) 
+
+VARIADIC FUNCTIONS:
+==================
+
+EXAMPLE:1
+// Go program to illustrate the 
+// concept of variadic function 
+package main 
+
+import( 
+	"fmt"
+	"strings"
+) 
+
+// Variadic function to join strings 
+func joinstr(element...string)string{
+	return strings.Join(element, "-") 
+} 
+
+func main() { 
+	
+// zero argument 
+fmt.Println(joinstr()) 
+	
+// multiple arguments 
+fmt.Println(joinstr("GEEK", "GFG")) 
+fmt.Println(joinstr("Geeks", "for", "Geeks")) 
+fmt.Println(joinstr("G", "E", "E", "k", "S")) 
+	
+} 
+
+EXAMPLE:2
+// Go program to illustrate the 
+// concept of variadic function 
+package main 
+import( 
+	"fmt"
+	"strings"
+) 
+// Variadic function to join strings 
+func joinstr(element...string)string{   //If values of element here changed then actual values also changes. So this alice is a reference to original slice
+	return strings.Join(element, "-") 
+} 
+func main() { 	
+// pass a slice in variadic function 
+element:= []string{"geeks", "FOR", "geeks"} 
+fmt.Println(joinstr(element...)) 
+} 
+
+
+ANONYMOUS FUNCTION:
+==================
+SYNTAX:  func(parameter_list)(retrun_type){
+		// code..
+		
+		// Use return statement if return_type are given
+		// if return_type is not given, then do not 
+		// use return statement
+		return
+	}(arguments) 
+
+EXAMPLE:1
+	package main 
+	import "fmt"
+	func main() { 
+		// Anonymous function 
+		func(){ 
+			fmt.Println("Welcome! to GeeksforGeeks") 
+		}()//function call with zero arguments 
+    	} 
+
+EXAMPLE:2
+	package main 
+	import "fmt"
+	func main() { 
+	
+		// Assigning an anonymous 
+		// function to a variable 
+		value := func(){ 
+			fmt.Println("Welcome! to GeeksforGeeks") 
+		} 
+		value() //function call	with zero arguments
+	} 
+	
+EXAMPLE:3
+	package main 
+	import "fmt"
+	func main() { 
+		// Passing arguments in anonymous function 
+		func(ele string){ 
+			fmt.Println(ele) 
+		}("GeeksforGeeks") 
+	} 
+
+
+EXAMPLE:4
+	// Go program to pass an anonymous 
+	// function as an argument into 
+	// other function 
+	package main 
+	import "fmt"
+	// Passing anonymous function 
+	// as an argument 
+	func GFG(i func(p, q string)string){ 
+		fmt.Println(i ("Geeks", "for")) 
+	} 	
+	func main() { 
+		value:= func(p, q string) string{ 
+			return p + q + "Geeks"
+		} 
+		GFG(value) 
+	} 
+
+EXAMPLE:5
+	Returning an anonymous function from another function. 
+	package main 
+	import "fmt"  
+ 	// Returning anonymous function  
+ 	func GFG() func(i, j string) string{ 
+ 	    	myf := func(i, j string)string{ 
+        	  	return i + j + "GeeksforGeeks"
+ 		} 
+ 		return myf 
+ 	}     
+	func main() { 
+	    value := GFG() 
+	    fmt.Println(value("Welcome ", "to ")) 
+	} 
+	
+EXAMPLE:6
+	package main 
+	import "fmt"
+	// Returning anonymous function 
+	func GFG() func(i, j string) string{ 
+		myf := func(i, j string)string{ 
+			return i + j + "GeeksforGeeks"
+		} 
+		return myf 
+	} 
+	func fgh(i func(p,j string)string){
+		fmt.Println(i("hello","hii"))
+	}
+	func main() { 
+		value := GFG() 
+		fgh(value)
+		fmt.Println(value("Welcome ", "to ")) 
+	} 
+	
+SORTING:
+=======
+package - sort
+
+s := []int{345, 78, 123, 10, 76, 2, 567, 5} 
+sort.Ints(s) 
+
+METHODS:
+=======
+Go language support methods. Go methods are similar to Go function with one difference, i.e, the method contains a receiver argument in it. With the help of the receiver argument, the method can access the properties of the receiver. Here, the receiver can be of struct type or non-struct type. When you create a method in your code the receiver and receiver type must present in the same package. And you are not allowed to create a method in which the receiver type is already defined in another package including inbuilt type like int, string, etc. If you try to do so, then the compiler will give an error.
+
+Syntax:
+func(reciver_name Type) method_name(parameter_list)(return_type){
+// Code
+}
+
+EXAMPLE:1) Method with struct type receiver
+
+	// Go program to illustrate the 
+	// method with struct type receiver 
+	package main 
+	import "fmt"
+	// Author structure 
+	type author struct { 
+		name	 string 
+		branch string 
+		particles int
+		salary int
+	} 
+	// Method with a receiver 
+	// of author type 
+	func (a author) show() {   //Here a author type is a copy of res author type.Like call by value
+		fmt.Println("Author's Name: ", a.name) 
+		fmt.Println("Branch Name: ", a.branch) 
+		fmt.Println("Published articles: ", a.particles) 
+		fmt.Println("Salary: ", a.salary) 
+	} 
+	// Main function 
+	func main() { 
+		// Initializing the values 
+		// of the author structure 
+		res := author{ 
+			name:	 "Sona", 
+			branch: "CSE", 
+			particles: 203, 
+			salary: 34000, 
+		} 
+		// Calling the method 
+		res.show() 
+	} 
+
+EXAMPLE:2) Method with Non-Struct Type Receiver
+In Go language, you are allowed to create a method with non-struct type receiver as long as the type and the method definitions are present in the same package. If they present in different packages like int, string, etc, then the compiler will give an error because they are defined in different packages.
+
+	// Go program to illustrate the method 
+	// with non-struct type receiver 
+	package main 
+	import "fmt"
+	// Type definition 
+	type data int
+	// Defining a method with 
+	// non-struct type receiver 
+	func (d1 data) multiply(d2 data) data {   //call by value
+		return d1 * d2 
+	} 
+	/* 
+	// if you try to run this code, 
+	// then compiler will throw an error 
+	func(d1 int)multiply(d2 int)int{ 
+	return d1 * d2 
+	} 
+	*/
+	// Main function 
+	func main() { 
+		value1 := data(23) 
+		value2 := data(20) 
+		res := value1.multiply(value2) 
+		fmt.Println("Final result: ", res) 
+	} 
+
+EXAMPLE:3) Methods with Pointer Receiver
+In Go language, you are allowed to create a method with a pointer receiver. With the help of a pointer receiver if a change made in the method will reflect in the caller which is not possible with the value receiver.
+
+Syntax:
+func (p *Type) method_name(...Type) Type {
+// Code
+}
+
+	package main 
+	import "fmt"  
+	// Author structure 
+	type author struct { 
+	    name      string 
+	    branch    string 
+	    particles int
+	}   
+	// Method with a receiver of author type 
+	func (a *author) show(abranch string) { 
+	    (*a).branch = abranch 
+	}   
+	// Main function 
+	func main() {   
+	    // Initializing the values 
+	    // of the author structure 
+	    res := author{ 
+	        name:   "Sona", 
+	        branch: "CSE", 
+	    }   
+	    fmt.Println("Author's name: ", res.name) 
+	    fmt.Println("Branch Name(Before): ", res.branch)   
+	    // Creating a pointer 
+	    p := &res   
+	    // Calling the show method 
+	    p.show("ECE") 
+	    fmt.Println("Author's name: ", res.name) 
+	    fmt.Println("Branch Name(After): ", res.branch) 
+	} 
+	
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		| We can use like			  		|
+		| 1) 	call   - res.show()		  		|
+		| 	called - func (a author) show()  - value copied	|
+		| 2)	call   - res.show()		  		|
+		| 	called - func (a *author) show() - pointer 	|
+		| 3)	call   - (&res),show()		  		|
+		| 	called - func (a author) show()  - value copied	|
+	    	| 4)	call   - (&res).show()		  		|
+	    	| 	called - func (a *author) show() - pointer 	|
+	    	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	    
+EXAMPLE:4) Method Can Accept both Pointer and Value
+
+package main 
+import "fmt"
+type author struct { 
+	name string 
+	branch string 
+} 
+func (a *author) show_1(abranch string) { 
+	(*a).branch = abranch 
+} 
+func (a author) show_2() { 
+
+	a.name = "Gourav"
+	fmt.Println("Author's name(Before) : ", a.name) 
+} 
+func main() { 
+	res := author{ 
+		name: "Sona", 
+		branch: "CSE", 
+	} 
+
+	fmt.Println("Branch Name(Before): ", res.branch) 
+
+	// Calling the show_1 method 
+	// (pointer method) with value 
+	res.show_1("ECE") 
+	fmt.Println("Branch Name(After): ", res.branch) 
+
+	// Calling the show_2 method 
+	// (value method) with a pointer 
+	(&res).show_2() 
+	fmt.Println("Author's name(After): ", res.name) 
+} 
+
